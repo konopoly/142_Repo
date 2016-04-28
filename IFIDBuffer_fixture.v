@@ -1,6 +1,5 @@
 `include "IFIDBuffer.v"
 module IFIDBuffer_fixture;
-
     // inputs
     reg clk;
 		reg hazard;
@@ -9,12 +8,14 @@ module IFIDBuffer_fixture;
 		reg [3:0] one;
 		reg [3:0] two;
 		reg [3:0] three;
+		reg [15:0] PC;
 
     // outputs
 		wire [3:0] opcode_o;
     wire [3:0] one_o;
 		wire [3:0] two_o;
 		wire [3:0] three_o;
+		wire [15:0] PC_o;
 
     IFIDBuffer uut (
         .clk(clk),
@@ -34,27 +35,32 @@ module IFIDBuffer_fixture;
         clk = 0; forever #10 clk = ~clk;
     end
 
-    task displaySignals();
-    begin
-        $display("Output of opcode_o         = %d ", opcode_o);
-				$display("Output of one_o         = %d ", one_o);
-				$display("Output of two_o         = %d ", two_o);
-				$display("Output of three_o         = %d ", three_o);
-    end
-    endtask
-
     initial begin
+			$vcdpluson;
         // Initialize Inputs
-        clk = 0; hazard = 0; reset = 1; opcode = 0; one = 0; two = 0; three = 0;
-        #10
-        displaySignals();
-      	hazard = 1; reset = 0; opcode = 64; one = 64; two = 64; three = 64;
-        #10
-        displaySignals();
-        hazard = 0;
-        #10
-        displaySignals();
-        #10
-        $finish;
+				reset = 1;
+				hazard = 0;
+				opcode = 2;
+				one = 3;
+				two = 4;
+				three = 5;
+				PC = 15;
+				#20
+				reset = 1;
+				hazard = 0;
+				opcode = 10;
+				one = 11;
+				two = 12;
+				three = 13;
+				PC = 17;
+				#20
+				reset = 0;
+				hazard = 0;
+				opcode = 10;
+				one = 11;
+				two = 12;
+				three = 13;
+				PC = 17;
+				#20
     end
 endmodule

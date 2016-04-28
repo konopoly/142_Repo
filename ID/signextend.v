@@ -1,6 +1,3 @@
-//polyashenko
-
-`timescale 1ns / 1ps
 module signextend(opcode,one,two,three,extendOutput);
 	input[3:0] opcode,one,two,three;
 	output[15:0] extendOutput;

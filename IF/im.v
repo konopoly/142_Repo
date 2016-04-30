@@ -20,9 +20,13 @@ module im(pc,one,two,three,four,rst,clk);
 			instMem[8] <= 8'h28;
 			instMem[9] <= 8'h19;
 		end
+	end
+	
+	always@(*) begin
 		one <= instMem[pc][7:4];
 		two <= instMem[pc][3:0];
 		three <= instMem[pc+1][7:4];
 		four <= instMem[pc+1][3:0];
 	end
+	
 endmodule

@@ -9,17 +9,15 @@
 `include "MUX/m2to1_16.v"
 
 
-module main(reset,clk);
-	wire[3:0] opcode_ID,one_ID,two_ID,three_ID;
-	wire[15:0] PC_ID; 
-	
+module IF(opcode_ID,one_ID,two_ID,three_ID,PC_ID,PCMux_2_IF,PCMux_1_IF,Hazard,PCSource,reset,clk,Halt);
+	output[3:0] opcode_ID,one_ID,two_ID,three_ID;
+	output[15:0] PC_ID; 
 	wire[15:0] PC_output_IF,PC_plus_IF,PC_minus_IF,PCMux_0_IF,PCMux_output_IF;
 	wire[3:0] opcode_IF,one_IF,two_IF,three_IF;
 	
-	wire[15:0] PCMux_2_IF,PCMux_1_IF;
-	
-	wire[1:0] PCSource;
-	wire Halt,Hazard;
+	input[15:0] PCMux_2_IF,PCMux_1_IF;
+	input[1:0] PCSource;
+	input reset,clk,Halt,Hazard;
 	
 	m3to1_16 PCMux(PCMux_0_IF,PCMux_1_IF,PCMux_2_IF,PCSource,PCMux_output_IF);
 	PC PC_uut(PCMux_output_IF,PC_output_IF,Halt,clk,reset);

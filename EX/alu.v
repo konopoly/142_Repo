@@ -65,7 +65,7 @@ module alu(CTRL,MUX_intop,MUX_inbottom,ALU_Result,Remainder,Overflow_flag);
 			Overflow_flag = 0; Remainder = 0;
 		end
 		else if (CTRL == 4'b1011) begin // SHIFT RIGHT
-			ALU_Result = (MUX_intop >>> MUX_inbottom); // fill with value of sign bit if expression is signed, otherwise 0's
+			ALU_Result = (MUX_intop >> MUX_inbottom); // fill with value of sign bit if expression is signed, otherwise 0's
 			Overflow_flag = 0; Remainder = 0;
 		end
 		else if (CTRL == 4'b1000) begin // Rotate Left

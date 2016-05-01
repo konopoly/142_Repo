@@ -19,7 +19,7 @@ module main_tb();
 		Hazard = 0;
 		#20
 		reset = 1;
-		#200
+		#250
 		$finish;
 	end
 endmodule

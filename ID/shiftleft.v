@@ -1,11 +1,8 @@
-//polyashenko
+module shiftleft(in,out);
+	input [15:0] in;
+	output reg[15:0] out;
 
-`timescale 1ns / 1ps
-module shiftleft(
-	input [15:0] mux3output,
-	output [15:0] shift_out
-  );
-
-	assign shift_out = mux3output << 1;
-
+	always@(*) begin
+		out = in << 1;
+	end
 endmodule

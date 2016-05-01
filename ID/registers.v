@@ -15,11 +15,14 @@ module registers(RA1,RA2,WA1,WD1,R0D,RD1,RD2,R0R,RegWrite,R0W,clk,rst);
 			regMem[3] <= 16'hFF0F;
 			regMem[4] <= 16'hF0FF;
 			regMem[5] <= 16'h0040;
+			regMem[6] <= 16'h0024;
+			regMem[7] <= 16'h00FF;
+			regMem[8] <= 16'hAAAA;
+			regMem[12] <= 16'hFFFF;
+			regMem[13] <= 16'h0002;
 		end
 		
-		R0R <= regMem[0];
-		RD1 <= regMem[RA1];
-		RD2 <= regMem[RA2];
+
 		
 		if(RegWrite) begin
 			regMem[WA1] <= WD1;
@@ -28,5 +31,10 @@ module registers(RA1,RA2,WA1,WD1,R0D,RD1,RD2,R0R,RegWrite,R0W,clk,rst);
 			regMem[0] <= R0D;
 		end
 	end
-		
+	
+	always@(*) begin
+		R0R = regMem[0];
+		RD1 = regMem[RA1];
+		RD2 = regMem[RA2];
+	end
 endmodule

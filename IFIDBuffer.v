@@ -1,5 +1,3 @@
-//on posedge clock with reset, if/id buffer
-
 module IFIDBuffer(clk,hazard,reset,PC,opcode,one,two,three,opcode_o,one_o,two_o,three_o,PC_o);
 	input clk, hazard, reset;
 	input[3:0] opcode, one, two, three;

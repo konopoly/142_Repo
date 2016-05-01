@@ -1,4 +1,5 @@
 `include "IFIDBuffer.v"
+
 module IFIDBuffer_fixture;
     // inputs
     reg clk;
@@ -12,7 +13,7 @@ module IFIDBuffer_fixture;
 
     // outputs
 		wire [3:0] opcode_o;
-    wire [3:0] one_o;
+        wire [3:0] one_o;
 		wire [3:0] two_o;
 		wire [3:0] three_o;
 		wire [15:0] PC_o;
@@ -28,15 +29,17 @@ module IFIDBuffer_fixture;
 				.opcode_o(opcode_o),
 				.one_o(one_o),
 				.two_o(two_o),
-				.three_o(three_o)
+      .three_o(three_o)
     );
 
-    initial begin
+    initial
+      begin
         clk = 0; forever #10 clk = ~clk;
-    end
+      end
 
-    initial begin
-			$vcdpluson;
+    initial
+      begin
+		//	$vcdpluson;
         // Initialize Inputs
 				reset = 1;
 				hazard = 0;
@@ -62,5 +65,6 @@ module IFIDBuffer_fixture;
 				three = 13;
 				PC = 17;
 				#20
-    end
+        		$finish;
+      end
 endmodule

@@ -2,13 +2,14 @@
 `include "main.v"
 
 module main_tb();
-	wire[15:0] RD1_EX,RD2_EX,SE_offset_EX;
-	wire[3:0] opcode_EX,RA1_EX,RA2_EX,FN_offset_EX;
-	wire regWrite_EX,r0Write_EX,alusource_EX,memRead_EX,memWrite_EX,memSource_EX;
-	
+	wire[15:0] ALUResult_MEM,R0D_MEM,DataIn_MEM;
+	wire[3:0] RA1_MEM,opcode_MEM,FN_Offset_MEM;
+	wire regWrite_MEM,r0Write_MEM,memRead_MEM,memWrite_MEM,memSource_MEM;
+	wire overflow;
+
 	reg reset,clk,Hazard;
 
-	main main_uut(reset,clk,Hazard,RD2_EX,RD1_EX,SE_offset_EX,opcode_EX,RA1_EX,RA2_EX,FN_offset_EX,regWrite_EX,r0Write_EX,alusource_EX,memRead_EX,memWrite_EX,memSource_EX);
+	main main_uut(reset,clk,Hazard,overflow,ALUResult_MEM,R0D_MEM,DataIn_MEM,RA1_MEM,opcode_MEM,FN_Offset_MEM,regWrite_MEM,r0Write_MEM,memRead_MEM,memWrite_MEM,memSource_MEM);
 	
 	initial clk=0;
 	always #10 clk = ~clk;

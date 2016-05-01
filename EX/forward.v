@@ -18,3 +18,5 @@ module forward(RA1_EX,RA2_EX,RA1_MEM,RA1_WB,R0W,RegWrite_MEM,RegWrite_WB,FWD1,FW
 		
 	end
 endmodule
+
+//MUST CHANGE R0W to OPCODE+FN

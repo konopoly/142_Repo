@@ -22,8 +22,6 @@ module registers(RA1,RA2,WA1,WD1,R0D,RD1,RD2,R0R,RegWrite,R0W,clk,rst);
 			regMem[13] <= 16'h0002;
 		end
 		
-
-		
 		if(RegWrite) begin
 			regMem[WA1] <= WD1;
 		end

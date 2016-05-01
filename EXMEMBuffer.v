@@ -1,32 +1,38 @@
-//stores all information given unless reset is called, had to declare ports like this again
-`timescale 1ns / 1ps
-module EXMEMBuffer(
-  input clk, hazard, reset,
-  input [3:0] rd1,
-  input [15:0] regout,
-  input [15:0] alu, R0,
-  output reg [15:0] result, R0out,
-  output reg [3:0] rd1Out,
-  output reg [15:0] aluOut
-	);
+module EXMEMBuffer(clk,reset,regWrite,r0Write,memRead,memWrite,memSource,RA1,FN_offset,opcode,ALUResult,DataIn,R0D,regWrite_o,r0Write_o,memRead_o,memWrite_o,memSource_o,RA1_o,FN_offset_o,opcode_o,ALUResult_o,DataIn_o,R0D_o);
+	input clk,reset,regWrite,r0Write,memRead,memWrite,memSource;
+	input[3:0] RA1,FN_offset,opcode;
+	input[15:0] ALUResult,DataIn,R0D;
 
-	always @ (posedge clk)
-	begin
-		//if reset then set everything to 0 to NOP
-		if (!reset)
-		begin
+	output reg regWrite_o,r0Write_o,memRead_o,memWrite_o,memSource_o;
+	output reg[3:0] RA1_o,FN_offset_o,opcode_o;
+	output reg[15:0] ALUResult_o,DataIn_o,R0D_o;
 
-      result <= 0;
-      R0out <= 0;
-      rd1Out <= 0;
-      aluOut <= 0;
+	always @(posedge clk or negedge reset) begin
+		if (!reset) begin
+			regWrite_o <= 0;
+			r0Write_o <= 0;
+			memRead_o <= 0;
+			memWrite_o <= 0;
+			memSource_o <= 0;
+			RA1_o <= 0;
+			FN_offset_o <= 0;
+			opcode_o <= 0;
+			ALUResult_o <= 0;
+			DataIn_o <= 0;
+			R0D_o <= 0;
 		end
-		else
-		begin
-    result <= alu;
-    R0out <= R0;
-    rd1Out <= rd1;
-    aluOut <= regout;
-    end
+		else begin
+			regWrite_o <= regWrite;
+			r0Write_o <= r0Write;
+			memRead_o <= memRead;
+			memWrite_o <= memWrite;
+			memSource_o <= memSource;
+			RA1_o <= RA1;
+			FN_offset_o <= FN_offset;
+			opcode_o <= opcode;
+			ALUResult_o <= ALUResult;
+			DataIn_o <= DataIn;
+			R0D_o <= R0D;
+		end
 	end
 endmodule

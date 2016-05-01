@@ -1,7 +1,7 @@
 module m4to1_16(data1, data2, data3, data4, select, data_out);
 	input [15:0] data1, data2, data3, data4;
 	input [1:0] select;
-	output reg [15:0] data_out
+	output reg [15:0] data_out;
 
 	always @ (*) begin
 		if (select == 0)

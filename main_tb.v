@@ -4,9 +4,9 @@
 module main_tb();
 	wire overflow;
 
-	reg reset,clk,Hazard;
+	reg reset,clk;
 
-	main main_uut(reset,clk,Hazard,overflow);
+	main main_uut(reset,clk,overflow);
 	
 	initial clk=0;
 	always #10 clk = ~clk;
@@ -16,10 +16,9 @@ module main_tb();
 		reset = 1;
 		#20
 		reset = 0;
-		Hazard = 0;
 		#20
 		reset = 1;
-		#250
+		#1000
 		$finish;
 	end
 endmodule

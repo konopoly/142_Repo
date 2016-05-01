@@ -3,12 +3,11 @@ module im(pc,one,two,three,four,rst,clk);
 	input [15:0] pc;
 	output [3:0] one,two,three,four;
 	reg [3:0] one,two,three,four;
-	reg [7:0] instMem [22:0];
+	reg [7:0] instMem [51:0];
 	integer i;
 
 	always@(posedge clk or negedge rst) begin
 		if(!rst) begin
-			for (i=0; i<=22; i=i+1) instMem[i] <= 8'b00000000;
 				instMem[0] <= 8'h01;
 				instMem[1] <= 8'h2F;
 				instMem[2] <= 8'h01;
@@ -31,6 +30,36 @@ module im(pc,one,two,three,four,rst,clk);
 				instMem[19] <= 8'h38;
 				instMem[20] <= 8'h06;
 				instMem[21] <= 8'h29;
+				instMem[22] <= 8'h67;
+				instMem[23] <= 8'h04;
+				instMem[24] <= 8'h0B;
+				instMem[25] <= 8'h1F;
+				instMem[26] <= 8'h47;
+				instMem[27] <= 8'h05;
+				instMem[28] <= 8'h0B;
+				instMem[29] <= 8'h2F;
+				instMem[30] <= 8'h57;
+				instMem[31] <= 8'h02;
+				instMem[32] <= 8'h02;
+				instMem[33] <= 8'h1F;
+				instMem[34] <= 8'h02;
+				instMem[35] <= 8'h1F;
+				instMem[36] <= 8'h88;
+				instMem[37] <= 8'h90;
+				instMem[38] <= 8'h08;
+				instMem[39] <= 8'h5F;
+				instMem[40] <= 8'hB8;
+				instMem[41] <= 8'h92;
+				instMem[42] <= 8'h8A;
+				instMem[43] <= 8'h92;
+				instMem[44] <= 8'h0C;
+				instMem[45] <= 8'hCF;
+				instMem[46] <= 8'h0D;
+				instMem[47] <= 8'hDE;
+				instMem[48] <= 8'h0C;
+				instMem[49] <= 8'hDF;
+				instMem[50] <= 8'hF0;
+				instMem[51] <= 8'h00;
 		end
 	end
 	

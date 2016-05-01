@@ -61,7 +61,7 @@ module reg_tb();
 		#20 //Write into R0.
 		rst = 1;
 		WD1 = 0;
-		R0D = 16'h0001;
+		R0D = 1;
 		RA1 = 0;
 		RA2 = 0;
 		WA1 = 0;

@@ -24,7 +24,7 @@ module branch(opCode,RD1,R0R,pc,offset,branch);
 				if(RD1==R0R) begin
 					branch = pc + offset;
 				end else begin
-					branch = pc + 2;
+					branch = pc + 4;
 				end
 			end
 		endcase

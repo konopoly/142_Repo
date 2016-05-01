@@ -3,7 +3,6 @@ module registers(RA1,RA2,WA1,WD1,R0D,RD1,RD2,R0R,RegWrite,R0W,clk,rst);
 	input[3:0] RA1,RA2,WA1;
 	input R0W,RegWrite,clk,rst;
 	output[15:0] RD1,RD2,R0R;
-	reg[15:0] RD1,RD2,R0R;
 	reg [15:0] regMem [15:0];
 	integer i;
 	
@@ -21,7 +20,6 @@ module registers(RA1,RA2,WA1,WD1,R0D,RD1,RD2,R0R,RegWrite,R0W,clk,rst);
 			regMem[12] <= 16'hFFFF;
 			regMem[13] <= 16'h0002;
 		end
-		
 		if(RegWrite) begin
 			regMem[WA1] <= WD1;
 		end
@@ -30,9 +28,8 @@ module registers(RA1,RA2,WA1,WD1,R0D,RD1,RD2,R0R,RegWrite,R0W,clk,rst);
 		end
 	end
 	
-	always@(*) begin
-		R0R = regMem[0];
-		RD1 = regMem[RA1];
-		RD2 = regMem[RA2];
-	end
+	assign R0R = regMem[0];
+	assign RD1 = regMem[RA1];
+	assign RD2 = regMem[RA2];
+
 endmodule

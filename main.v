@@ -8,7 +8,7 @@
 `include "control.v"
 
 `include "ID/branch.v"
-//`include "ID/hazard.v"
+`include "ID/hazard.v"
 `include "ID/registers.v"
 `include "ID/shiftleft.v"
 `include "ID/signextend.v"
@@ -29,9 +29,9 @@
 `include "MUX/m3to1_16.v"
 `include "MUX/m4to1_16.v"
 
-module main(reset,clk,Hazard,overflow);
+module main(reset,clk,overflow);
 	//INPUTS
-	input reset,clk,Hazard;
+	input reset,clk;
 	output overflow;
 	//IF WIRES
 	wire[15:0] PC_output_IF,PC_plus_IF,PC_minus_IF,PCMux_0_IF,PCMux_2_IF,PCMux_1_IF,PCMux_output_IF;
@@ -40,6 +40,7 @@ module main(reset,clk,Hazard,overflow);
 	//ID WIRES
 	wire[15:0] SE_offset_ID,SES_offset_ID,RD1_ID,RD2_ID,R0R_ID,PC_ID,WD1,R0D;
 	wire[3:0] opcode_ID,RA1_ID,RA2_ID,FN_Offset_ID,WA1;
+	wire Hazard;
 	
 	//CONTROL WIRES
 	wire regWrite_ID,r0Write_ID,Halt,alusource_ID,alusource2_ID,memRead_ID,memWrite_ID,memSource_ID;
@@ -84,6 +85,7 @@ module main(reset,clk,Hazard,overflow);
 	shiftleft SL_uut(SE_offset_ID,SES_offset_ID);
 	branch branch_uut(opcode_ID,RD1_ID,R0R_ID,PC_ID,SES_offset_ID,PCMux_2_IF);
 	adder16bit add_uut(PC_ID,SES_offset_ID,PCMux_1_IF);
+	hazard hazard_uut(RA1_ID,RA2_ID,RA1_EX,memRead_EX,Hazard);
 	
 	IDEXBuffer IDEX_uut(clk,Hazard,reset,opcode_ID,RA1_ID,RA2_ID,FN_Offset_ID,RD1_ID,RD2_ID,SE_offset_ID,regWrite_ID,r0Write_ID,alusource_ID,alusource2_ID,memRead_ID,memWrite_ID,memSource_ID,opcode_EX,RA1_EX,RA2_EX,FN_Offset_EX,RD1_EX,RD2_EX,SE_offset_EX,regWrite_EX,r0Write_EX,alusource_EX,alusource2_EX,memRead_EX,memWrite_EX,memSource_EX);
 	

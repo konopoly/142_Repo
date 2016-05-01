@@ -1,88 +1,37 @@
-//polyashenko
-
-`include "alu.v"
 `timescale 1ns / 1ps
-module ALU_fixture;
-	// Inputs
-  reg [3:0] CTRL;
-  reg [15:0] MUX_intop;
-  reg [15:0] MUX_inbottom;
+`include "alu.v"
+module alu_fixture;
+	reg [3:0] CTRL;
+	reg [15:0] MUX_intop, MUX_inbottom;
+	wire [15:0] ALU_Result, Remainder;
+	wire Overflow_flag;
 
-  // Outputs
-  wire [15:0] ALU_Result;
-  wire [15:0] Remainder;
-  wire Overflow_flag;
-
-  // Instantiate the Unit Under Test (UUT)
-  alu uut (
-    .CTRL(CTRL),
-    .MUX_intop(MUX_intop),
-    .MUX_inbottom(MUX_inbottom),
-    .ALU_Result(ALU_Result),
-    .Remainder(Remainder),
-    .Overflow_flag(Overflow_flag)
-    );
-
-    task displaySignals();
-    begin
-      $display("Operation           = %d", CTRL);
-      $display("data1               = %d", MUX_intop);
-      $display("data2               = %d", MUX_inbottom);
-      $display("ALUResult           = %d", ALU_Result);
-      $display("Remainder           = %d", Remainder);
-      $display("Overflow            = %d", Overflow_flag);
-    end
-  endtask
+	alu alu_uut(CTRL,MUX_intop,MUX_inbottom,ALU_Result,Remainder,Overflow_flag);
 
   initial begin
-    // Initialize Inputs
-    CTRL = 0;
-    MUX_intop = 0;
-    MUX_inbottom = 0;
-
-    $display("\nOP1 + OP2\n"); //ADD
-    CTRL = 0; MUX_intop = 1000; MUX_inbottom = 50;
+    $vcdpluson;
+    CTRL = 1; MUX_intop = 1000; MUX_inbottom = 50; // Mult
     #10
-    displaySignals();
-    $display("\nOP1 - OP2\n"); // SUBTRACT
-    CTRL = 1; MUX_intop = 1000; MUX_inbottom = 50;
+    CTRL = 2; MUX_intop = 1000; MUX_inbottom = 50; // Div
     #10
-    displaySignals();
-    $display("\nOP1 & OP2\n"); // AND
-    CTRL = 2; MUX_intop = 1000; MUX_inbottom = 50;
+    CTRL = 8; MUX_intop = 1000; MUX_inbottom = 50; // ROL
     #10
-    displaySignals();
-    $display("\nOP1 | OP2\n"); // OR
-    CTRL = 3; MUX_intop = 1000; MUX_inbottom = 50;
+    CTRL = 9; MUX_intop = 1000; MUX_inbottom = 50; // ROR
     #10
-    displaySignals();
-    $display("\nOP1 * OP2\n"); // MULTIPLICATION
-    CTRL = 4; MUX_intop = 32000; MUX_inbottom = 5;
+    CTRL = 10; MUX_intop = 32000; MUX_inbottom = 5; // SLL
     #10
-    displaySignals();
-    $display("\nOP1 / OP2\n"); // DIVISION
-    CTRL = 5; MUX_intop = 25; MUX_inbottom = 6;
+    CTRL = 11; MUX_intop = 25; MUX_inbottom = 6; // SLR
+    #10 
+    CTRL = 12; MUX_intop = 16'hFF0F; MUX_inbottom = 16'hFF0F; // OR
     #10
-    displaySignals();
-    $display("\nOP1 << OP2\n"); // SHIFT LEFT
-    CTRL = 6; MUX_intop = 18; MUX_inbottom = 1;
+    CTRL = 13; MUX_intop = 18; MUX_inbottom = 1; // AND
     #10
-    displaySignals();
-    $display("\nOP1 >>> OP2\n"); // SHIFT RIGHT
-    CTRL = 7; MUX_intop = 18; MUX_inbottom = 1;
+    CTRL = 14; MUX_intop = 1000; MUX_inbottom = 50; //SUB
     #10
-    displaySignals();
-    $display("\nOP1 rotate left by OP2\n"); // Rotate Left
-    CTRL = 8; MUX_intop = 1000; MUX_inbottom = 50;
+    CTRL = 15; MUX_intop = 1000; MUX_inbottom = 50; // ADD
     #10
-    displaySignals();
-    $display("\nOP1 rotate right by OP2\n"); // Rotate Right
-    CTRL = 9; MUX_intop = 1000; MUX_inbottom = 50;
+    CTRL = 6; MUX_intop = 1000; MUX_inbottom = 50; //NOP
     #10
-    displaySignals();
-    $display("\nHALT Program\n"); // Rotate Right
-    CTRL = 10; MUX_intop = 1000; MUX_inbottom = 50;
-    #10
-    displaySignals();
-  end
+	$finish;
+	end
 endmodule

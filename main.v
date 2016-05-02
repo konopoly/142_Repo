@@ -109,4 +109,46 @@ module main(reset,clk);
 	
 	exception exception_uut(opcode_IF,overflow,Halt);
 	
+	always@(negedge clk) begin
+		$display("--------------------------------------PC");
+		$display("Input: %h",PCMux_output_IF);
+		$display("Output: %h",PC_output_IF);
+		$display("");
+		$display("--------------------------------------Instruction Memory");
+		$display("Input: %h",PC_output_IF);
+		$display("Output PC: %h, Instructions(opcode,op1,op2,offset): %h%h%h%h",PC_output_IF,opcode_IF,one_IF,two_IF,three_IF);
+		$display("");
+		$display("--------------------------------------IFID Buffer");
+		$display("Input PC: %h, Instructions(opcode,op1,op2,offset): %h%h%h%h",PC_output_IF,opcode_IF,one_IF,two_IF,three_IF);
+		$display("Output PC: %h, Instructions(opcode,op1,op2,offset): %h%h%h%h",PC_ID,opcode_ID,RA1_ID,RA2_ID,FN_Offset_ID);
+		$display("");
+		$display("--------------------------------------Register Memory");
+		$display("Input RA1: %h, RA2: %h, WA1: %h, WD1: %h, R0D: %h, RegWrite: %h, R0W: %h",RA1_ID,RA2_ID,RA1_WB,MuxResult_WB,R0D_WB,regWrite_WB,r0Write_WB);
+		$display("Output RD1: %h, RD2: %h, R0R: %h",RD1_ID,RD2_ID,R0R_ID);
+		$display("");
+		$display("--------------------------------------IDEX Buffer");
+		$display("Input Hazard: %h, reset: %h, opcode: %h, RA1: %h, RA2: %h, FN_Offset: %h, RD1: %h, RD2: %h, SE_offset: %h, regWrite: %h, r0Write: %h, alusource: %h, alusource2: %h, memRead: %h, memWrite: %h, memSource: %h",Hazard,reset,opcode_ID,RA1_ID,RA2_ID,FN_Offset_ID,RD1_ID,RD2_ID,SE_offset_ID,regWrite_ID,r0Write_ID,alusource_ID,alusource2_ID,memRead_ID,memWrite_ID,memSource_ID);
+		$display("Output opcode: %h, RA1: %h, RA2: %h, FN_Offset: %h, RD1: %h, RD2: %h, SE_offset: %h, regWrite: %h, r0Write: %h, alusource: %h, alusource2: %h, memRead: %h, memWrite: %h, memSource: %h",opcode_EX,RA1_EX,RA2_EX,FN_Offset_EX,RD1_EX,RD2_EX,SE_offset_EX,regWrite_EX,r0Write_EX,alusource_EX,alusource2_EX,memRead_EX,memWrite_EX,memSource_EX);
+		$display("");
+		$display("--------------------------------------ALU");
+		$display("Input ALUop: %h, RD1: %h, RD2: %h",ALUop_EX,RD1Mux_EX,RD2Mux_EX);
+		$display("Output Result: %h, R0: %h, Overflow: %h",ALUResult_EX,R0D_EX,overflow);
+		$display("");
+		$display("--------------------------------------EXMEM Buffer");
+		$display("Input reset: %h, regWrite: %h, r0Write: %h, memRead: %h, memWrite: %h, memSource: %h, RA1: %h, ALUResult: %h, RD1: %h, R0D: %h",reset,regWrite_EX,r0Write_EX,memRead_EX,memWrite_EX,memSource_EX,RA1_EX,ALUResult_EX,FWD1Mux_output_EX,R0D_EX);
+		$display("Output regWrite: %h, r0Write: %h, memRead: %h, memWrite: %h, memSource: %h, RA1: %h, ALUResult: %h, DataIn: %h, R0D: %h",regWrite_MEM,r0Write_MEM,memRead_MEM,memWrite_MEM,memSource_MEM,RA1_MEM,ALUResult_MEM,DataIn_MEM,R0D_MEM);
+		$display("");
+		$display("--------------------------------------Data Memory");
+		$display("Input: memRead: %h, memWrite: %h, ALUResult: %h, DataIn: %h, Reset: %h",memRead_MEM,memWrite_MEM,ALUResult_MEM,DataIn_MEM,reset);
+		$display("Output DataOut: %h, Instructions(opcode,op1,op2,offset): %h%h%h%h",DataOut_MEM);
+		$display("");
+		$display("--------------------------------------MEMWB Buffer");
+		$display("Input: Reset: %h, regWrite: %h, r0Write: %h, memSource: %h, RA1: %h, ALUResult: %h, DataOut: %h, R0D: %h",reset,regWrite_MEM,r0Write_MEM,memSource_MEM,RA1_MEM,ALUResult_MEM,DataOut_MEM,R0D_MEM);
+		$display("Output regWrite: %h, r0Write: %h, memSource: %h, RA1: %h, ALUResult: %h, DataIn: %h, R0D: %h",regWrite_WB,r0Write_WB,memSource_WB,RA1_WB,ALUResult_WB,DataOut_WB,R0D_WB);
+		$display("");
+		
+		$display("");
+		$display("");
+	end
+	
 endmodule

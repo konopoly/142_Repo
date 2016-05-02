@@ -11,8 +11,6 @@ module main_tb();
 
 	initial begin
 		$vcdpluson;
-		reset = 1;
-		#20
 		reset = 0;
 		#20
 		reset = 1;

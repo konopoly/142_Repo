@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 `include "alu.v"
-module alu_fixture;
+module alu_tb;
 	reg [3:0] CTRL;
 	reg [15:0] MUX_intop, MUX_inbottom;
 	wire [15:0] ALU_Result, Remainder;

@@ -2,7 +2,7 @@
 
 `include "shiftleft.v"
 `timescale 1ns / 1ps
-module shiftleft_fixture;
+module shiftleft_tb;
 
 	// Inputs
   reg [15:0] mux3output;

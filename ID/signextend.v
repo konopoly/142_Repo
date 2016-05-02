@@ -1,7 +1,6 @@
 module signextend(opcode,one,two,three,extendOutput);
 	input[3:0] opcode,one,two,three;
-	output[15:0] extendOutput;
-	reg[15:0] extendOutput;
+	output reg[15:0] extendOutput;
 	
 	always @ (*)
 	begin

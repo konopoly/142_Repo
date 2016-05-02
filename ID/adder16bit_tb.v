@@ -1,6 +1,6 @@
 `include "16bitadder.v"
 `timescale 1ns / 1ps
-module adder16bit_fixture;
+module adder16bit_tb;
 	// Inputs
   reg [15:0] op1;
   reg [15:0] op2;

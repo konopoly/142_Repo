@@ -2,12 +2,17 @@
 `include "branch.v"
 
 module branch_tb();
+	reg clk;
 	reg[3:0] opCode;
 	reg[15:0] RD1,R0R,pc,offset;
 	wire[15:0] branch;
+	wire hazard;
 	
-	branch uut(opCode,RD1,R0R,pc,offset,branch);
+	branch uut(opCode,RD1,R0R,pc,offset,branch,hazard,clk);
  
+	initial clk=0;
+	always #10 clk = ~clk;
+
 	initial begin
 		$vcdpluson;
 		pc = 0; //NO

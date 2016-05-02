@@ -1,5 +1,5 @@
 `include "alucontrol.v"
-module alucontrol_fixture;
+module alucontrol_tb;
 	// Inputs
   reg [1:0] ALUop;
   reg [3:0] functionCode;

@@ -3,9 +3,10 @@
 
 module control_tb();
 	reg[3:0] opCode,functionCode;
-	wire regWrite,r0Write,ra1Source,ra2Source,halt,aluSource,memRead,memWrite,memSource,fnOffset;
+	wire regWrite,r0Write,halt,aluSource,aluSource2,memRead,memWrite,memSource;
 	wire[1:0] pcSource;
-	control uut(opCode,functionCode,regWrite,r0Write,ra1Source,ra2Source,pcSource,halt,aluSource,memRead,memWrite,memSource,fnOffset);
+	
+	control uut(opCode,functionCode,regWrite,r0Write,pcSource,halt,aluSource,aluSource2,memRead,memWrite,memSource);
  
 	initial begin
 		$vcdpluson;

@@ -2,7 +2,6 @@
 `include "IF/im.v"
 `include "IF/PC.v"
 `include "IF/add2.v"
-`include "IF/sub2.v"
 `include "IFIDBuffer.v"
 
 `include "control.v"
@@ -13,6 +12,7 @@
 `include "ID/shiftleft.v"
 `include "ID/signextend.v"
 `include "ID/adder16bit.v"
+`include "ID/orModule.v"
 `include "IDEXBuffer.v"
 
 `include "EX/alucontrol.v"
@@ -40,7 +40,7 @@ module main(reset,clk,overflow);
 	//ID WIRES
 	wire[15:0] SE_offset_ID,SES_offset_ID,RD1_ID,RD2_ID,R0R_ID,PC_ID,WD1,R0D;
 	wire[3:0] opcode_ID,RA1_ID,RA2_ID,FN_Offset_ID,WA1;
-	wire Hazard;
+	wire Hazard,hazard_branch,hazard_unit;
 	
 	//CONTROL WIRES
 	wire regWrite_ID,r0Write_ID,Halt,alusource_ID,alusource2_ID,memRead_ID,memWrite_ID,memSource_ID;
@@ -65,15 +65,14 @@ module main(reset,clk,overflow);
 	//WB WIRES
 	wire R0W_WB,RegWrite_WB;
 	
-	wire[15:0] R0D_WB,DataIn_WB,ALUResult_WB,MuxResult_WB;
+	wire[15:0] R0D_WB,DataOut_WB,ALUResult_WB,MuxResult_WB;
 	wire[3:0] RA1_WB;
 	wire regWrite_WB,r0Write_WB,memSource_WB;
 	
 	m3to1_16 PCMux(PCMux_0_IF,PCMux_1_IF,PCMux_2_IF,PCSource,PCMux_output_IF);
 	PC PC_uut(PCMux_output_IF,PC_output_IF,Halt,clk,reset);
 	add2 add2_uut(PC_output_IF,PC_plus_IF);
-	sub2 sub2_uut(PC_output_IF,PC_minus_IF);
-	m2to1_16 addOrSub(PC_plus_IF,PC_minus_IF,Hazard,PCMux_0_IF);
+	m2to1_16 addOrSub(PC_plus_IF,PC_output_IF,Hazard,PCMux_0_IF);
 	im im_uut(PC_output_IF,opcode_IF,one_IF,two_IF,three_IF,reset,clk);
 	
 	IFIDBuffer IFID_uut(clk,Hazard,reset,PC_output_IF,opcode_IF,one_IF,two_IF,three_IF,opcode_ID,RA1_ID,RA2_ID,FN_Offset_ID,PC_ID);
@@ -83,9 +82,10 @@ module main(reset,clk,overflow);
 	registers registers_uut(RA1_ID,RA2_ID,RA1_WB,MuxResult_WB,R0D_WB,RD1_ID,RD2_ID,R0R_ID,regWrite_WB,r0Write_WB,clk,reset);
 	signextend SE_uut(opcode_ID,RA1_ID,RA2_ID,FN_Offset_ID,SE_offset_ID);
 	shiftleft SL_uut(SE_offset_ID,SES_offset_ID);
-	branch branch_uut(opcode_ID,RD1_ID,R0R_ID,PC_ID,SES_offset_ID,PCMux_2_IF);
+	branch branch_uut(opcode_ID,RD1_ID,R0R_ID,PC_ID,SES_offset_ID,PCMux_2_IF,hazard_branch,clk);
 	adder16bit add_uut(PC_ID,SES_offset_ID,PCMux_1_IF);
-	hazard hazard_uut(RA1_ID,RA2_ID,RA1_EX,memRead_EX,Hazard);
+	hazard hazard_uut(RA1_ID,RA2_ID,RA1_EX,memRead_EX,hazard_unit);
+	orModule or_uut(hazard_unit,hazard_branch,Hazard);
 	
 	IDEXBuffer IDEX_uut(clk,Hazard,reset,opcode_ID,RA1_ID,RA2_ID,FN_Offset_ID,RD1_ID,RD2_ID,SE_offset_ID,regWrite_ID,r0Write_ID,alusource_ID,alusource2_ID,memRead_ID,memWrite_ID,memSource_ID,opcode_EX,RA1_EX,RA2_EX,FN_Offset_EX,RD1_EX,RD2_EX,SE_offset_EX,regWrite_EX,r0Write_EX,alusource_EX,alusource2_EX,memRead_EX,memWrite_EX,memSource_EX);
 	
@@ -101,8 +101,8 @@ module main(reset,clk,overflow);
 	
 	mem mem_uut(memRead_MEM,memWrite_MEM,ALUResult_MEM,DataIn_MEM,DataOut_MEM,reset,clk);
 	
-	MEMWBBuffer memwb_uut(clk,reset,regWrite_MEM,r0Write_MEM,memSource_MEM,RA1_MEM,ALUResult_MEM,DataIn_MEM,R0D_MEM,regWrite_WB,r0Write_WB,memSource_WB,RA1_WB,ALUResult_WB,DataIn_WB,R0D_WB);
+	MEMWBBuffer memwb_uut(clk,reset,regWrite_MEM,r0Write_MEM,memSource_MEM,RA1_MEM,ALUResult_MEM,DataOut_MEM,R0D_MEM,regWrite_WB,r0Write_WB,memSource_WB,RA1_WB,ALUResult_WB,DataOut_WB,R0D_WB);
 	
-	m2to1_16 memMux_uut(ALUResult_WB,DataIn_WB,memSource_WB,MuxResult_WB);
+	m2to1_16 memMux_uut(ALUResult_WB,DataOut_WB,memSource_WB,MuxResult_WB);
 	
 endmodule

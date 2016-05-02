@@ -18,7 +18,7 @@ module main_tb();
 		reset = 0;
 		#20
 		reset = 1;
-		#1000
+		#610
 		$finish;
 	end
 endmodule

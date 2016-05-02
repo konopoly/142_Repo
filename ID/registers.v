@@ -8,7 +8,7 @@ module registers(RA1,RA2,WA1,WD1,R0D,RD1,RD2,R0R,RegWrite,R0W,clk,rst);
 	
 	always@(posedge clk or negedge rst) begin
 		if(!rst) begin
-			for (i=0; i<=15; i=i+1) regMem[i] <= 0;
+			for (i=1; i<=15; i=i+1) regMem[i] <= 0;
 			regMem[1] <= 16'h0F00;
 			regMem[2] <= 16'h0050;
 			regMem[3] <= 16'hFF0F;
@@ -20,7 +20,7 @@ module registers(RA1,RA2,WA1,WD1,R0D,RD1,RD2,R0R,RegWrite,R0W,clk,rst);
 			regMem[12] <= 16'hFFFF;
 			regMem[13] <= 16'h0002;
 		end
-		if(RegWrite) begin
+		if(RegWrite && WA1!=0) begin
 			regMem[WA1] <= WD1;
 		end
 		if(R0W) begin

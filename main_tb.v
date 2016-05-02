@@ -2,11 +2,9 @@
 `include "main.v"
 
 module main_tb();
-	wire overflow;
-
 	reg reset,clk;
 
-	main main_uut(reset,clk,overflow);
+	main main_uut(reset,clk);
 	
 	initial clk=0;
 	always #10 clk = ~clk;

@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "IFIDBuffer.v"
+`include "MEMWBBuffer.v"
 
 module MEMWBBuffer_tb;
 	reg clk,reset,regWrite,r0Write,memSource;
@@ -21,8 +21,8 @@ module MEMWBBuffer_tb;
 	r0Write = 1;
 	memSource = 1;
 	RA1 = 1;
-	ALUResult = 1:
-	DataIn = 1:
+	ALUResult = 1;
+	DataIn = 1;
 	R0D = 1;
 	#20
 	reset = 0;

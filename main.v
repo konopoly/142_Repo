@@ -29,10 +29,12 @@
 `include "MUX/m3to1_16.v"
 `include "MUX/m4to1_16.v"
 
-module main(reset,clk,overflow);
+`include "exception.v"
+
+module main(reset,clk);
 	//INPUTS
 	input reset,clk;
-	output overflow;
+	wire overflow;
 	//IF WIRES
 	wire[15:0] PC_output_IF,PC_plus_IF,PC_minus_IF,PCMux_0_IF,PCMux_2_IF,PCMux_1_IF,PCMux_output_IF;
 	wire[3:0] opcode_IF,one_IF,two_IF,three_IF;
@@ -104,5 +106,7 @@ module main(reset,clk,overflow);
 	MEMWBBuffer memwb_uut(clk,reset,regWrite_MEM,r0Write_MEM,memSource_MEM,RA1_MEM,ALUResult_MEM,DataOut_MEM,R0D_MEM,regWrite_WB,r0Write_WB,memSource_WB,RA1_WB,ALUResult_WB,DataOut_WB,R0D_WB);
 	
 	m2to1_16 memMux_uut(ALUResult_WB,DataOut_WB,memSource_WB,MuxResult_WB);
+	
+	exception exception_uut(opcode_IF,overflow,Halt);
 	
 endmodule

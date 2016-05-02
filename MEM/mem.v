@@ -6,13 +6,16 @@ module mem(memRead,memWrite,address,dataIn,dataOut,rst,clk);
 	integer i;
 
 	always@(posedge clk or negedge rst) begin
-		if(!rst)
-			 for (i=0; i<127; i=i+1) dataMem[i] <= 8'b00000000;
+		if(!rst) begin
+			for (i=0; i<127; i=i+1) dataMem[i] <= 8'b00000000;
 			 	dataMem[0] <= 8'hAB;
 				dataMem[1] <= 8'h99;
-		if(memWrite)
+			end
+		if(memWrite) begin
 			{dataMem[address],dataMem[address+1]} <= dataIn;
-		if(memRead)
-			dataOut <= {dataMem[address],dataMem[address+1]};
+		end
+	end
+	always@(*) begin
+		dataOut = {dataMem[address],dataMem[address+1]};
 	end
 endmodule
